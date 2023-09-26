@@ -1,0 +1,24 @@
+* 
+
+```
+bool compare(TreeNode* left, TreeNode* right) {
+        
+        if (left == nullptr && right != nullptr) return false;
+        else if (left != nullptr && right == nullptr) return false;
+        else if (left == nullptr && right == nullptr) return true;
+        else if (left->val != right->val) return false;
+           
+        return compare(left->left, right->left) && compare(left->right, right->right);
+    }
+
+    bool isSubtree(TreeNode* root, TreeNode* subRoot) {
+        if (root == nullptr) return false;
+        
+        return compare(root, subRoot) || isSubtree(root->left, subRoot) || isSubtree(root->right, subRoot);
+    }
+```
+
+注意，在子函数中，四个判断条件必须都要写，且顺序也不能变，否则就会出错
+我认为，必须要先判断两者之中是否有一个为空，再判断两者是不是都为空，才能接着判断两者的值相同与否
+
+我自己写的时候想着简练代码量，反而疏忽了判决条件的顺序发挥着重要的作用

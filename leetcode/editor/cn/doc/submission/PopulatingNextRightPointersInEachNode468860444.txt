@@ -1,0 +1,47 @@
+/*
+// Definition for a Node.
+class Node {
+    public int val;
+    public Node left;
+    public Node right;
+    public Node next;
+
+    public Node() {}
+    
+    public Node(int _val) {
+        val = _val;
+    }
+
+    public Node(int _val, Node _left, Node _right, Node _next) {
+        val = _val;
+        left = _left;
+        right = _right;
+        next = _next;
+    }
+};
+*/
+
+class Solution {
+    public Node connect(Node root) {
+        Deque<Node> que = new LinkedList<>();
+        if (root != null) que.offer(root);
+        while (!que.isEmpty()) {
+            int size = que.size();
+            Node cur = que.poll();
+            if (cur.left != null) que.offer(cur.left);
+            if (cur.right != null) que.offer(cur.right);
+            for (int i = 1; i < size; i++) {
+                Node next = que.poll();
+                if (next.left != null) que.offer(next.left);
+                if (next.right != null) que.offer(next.right);
+
+                cur.next = next;
+                cur = next;
+            }
+        }
+        return root;
+    }
+}
+
+//runtime:2 ms
+//memory:42.1 MB

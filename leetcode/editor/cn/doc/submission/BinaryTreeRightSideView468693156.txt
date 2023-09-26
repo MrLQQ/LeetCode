@@ -1,0 +1,45 @@
+
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ * int val;
+ * TreeNode left;
+ * TreeNode right;
+ * TreeNode() {}
+ * TreeNode(int val) { this.val = val; }
+ * TreeNode(int val, TreeNode left, TreeNode right) {
+ * this.val = val;
+ * this.left = left;
+ * this.right = right;
+ * }
+ * }
+ */
+class Solution {
+    public List<List<Integer>> res = new ArrayList<List<Integer>>();
+
+    public List<Integer> rightSideView(TreeNode root) {
+        checkFun(root, 0);
+        // 将res中每一层的最后一个元素提取出来作为结果
+        List<Integer> result = new ArrayList<Integer>();
+        for (int i = 0; i < res.size(); i++) {
+            result.add(res.get(i).get(res.get(i).size() - 1));
+        }
+        return result;
+    }
+
+    // DFS
+    public void checkFun(TreeNode root, Integer deep) {
+        if (root == null) return;
+
+        deep++;
+        if (res.size() < deep) {
+            res.add(new ArrayList<Integer>());
+        }
+        res.get(deep - 1).add(root.val);
+        checkFun(root.left, deep);
+        checkFun(root.right, deep);
+    }
+}
+
+//runtime:1 ms
+//memory:39.9 MB

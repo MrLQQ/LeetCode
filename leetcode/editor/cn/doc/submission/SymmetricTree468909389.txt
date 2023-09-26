@@ -1,0 +1,44 @@
+
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ * int val;
+ * TreeNode left;
+ * TreeNode right;
+ * TreeNode() {}
+ * TreeNode(int val) { this.val = val; }
+ * TreeNode(int val, TreeNode left, TreeNode right) {
+ * this.val = val;
+ * this.left = left;
+ * this.right = right;
+ * }
+ * }
+ */
+class Solution {
+    public boolean isSymmetric(TreeNode root) {
+        if (root == null) return true;
+        return check(root.left, root.right);
+    }
+
+    public boolean check(TreeNode leftNode, TreeNode rightNode) {
+        // 左节点为空 右节点不为空 不对称
+        if (leftNode == null && rightNode != null) return false;
+            //左节点为不为空 右节点为空 不对称
+        else if (leftNode != null && rightNode == null) return false;
+            // 左节点为空 右节点为空 对称
+        else if (leftNode == null && rightNode == null) return true;
+            // 左右节点值不相等 不对称
+        else if (leftNode.val != rightNode.val) return false;
+
+        // 比较外侧节点 即左节点左侧，右节点右侧
+        boolean outside = check(leftNode.left, rightNode.right);
+        // 比较内侧节点 即左节点右侧，右节点左侧
+        boolean inside = check(leftNode.right, rightNode.left);
+
+        // 外侧内侧都相同才对称
+        return outside && inside;
+    }
+}
+
+//runtime:0 ms
+//memory:39.3 MB

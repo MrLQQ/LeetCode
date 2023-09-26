@@ -1,0 +1,52 @@
+class Solution {
+    public int[] searchRange(int[] nums, int target) {
+		int leftBorder = getLeftBroder(nums, target);
+        int rightBorder = getRightBroder(nums, target);
+        // 情况一
+        if (leftBorder == -2 || rightBorder == -2) return new int[]{-1, -1};
+        // 情况三
+        if (rightBorder - leftBorder > 1) return new int[]{leftBorder + 1, rightBorder - 1};
+        // 情况二
+        return new int[]{-1, -1};
+	}
+
+	/**
+	 * [5,7,7,8,8,10]
+	 * 8
+	 */
+
+	int getLeftBroder(int[] nums, int target){
+		int left = 0;
+		int right = nums.length - 1;
+		int leftBorder = -2;
+		while (left <= right){
+			int middle = left + ((right - left) / 2);
+			if (nums[middle] >= target){
+				right = middle - 1;
+				leftBorder = right;
+			}else {
+				left = middle + 1;
+			}
+		}
+		return leftBorder;
+	}
+
+		int getRightBroder(int[] nums, int target){
+		int left = 0;
+        int right = nums.length - 1;
+        int rightBorder = -2; // 记录一下rightBorder没有被赋值的情况
+        while (left <= right) {
+            int middle = left + ((right - left) / 2);
+            if (nums[middle] > target) {
+                right = middle - 1;
+            } else { // 寻找右边界，nums[middle] == target的时候更新left
+                left = middle + 1;
+                rightBorder = left;
+            }
+        }
+        return rightBorder;
+	}
+}
+
+//runtime:0 ms
+//memory:43.6 MB

@@ -1,0 +1,30 @@
+class Solution {
+    public int[] topKFrequent(int[] nums, int k) {
+        // 优先级队列 小顶堆
+        PriorityQueue<int[]> pd = new PriorityQueue<>((o1, o2) -> o1[1] - o2[1]);
+        // 答案数组
+        int[] res = new int[k];
+        // 统计每个数字出现的次数
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int num : nums) {
+            map.put(num, map.getOrDefault(num, 0) + 1);
+        }
+        // 将数字及其对应的次数放如优先级队列
+        for (var x : map.entrySet()) {
+            int[] tmp = new int[2];
+            tmp[0] = x.getKey();
+            tmp[1] = x.getValue();
+            pd.offer(tmp);
+            // 因为是小顶堆,堆顶是最小的，如果插入元素的数量大于K，就删除堆顶元素
+            // 保证剩下的K个元素都是出现次数最多的
+            if (pd.size() > k) pd.poll();
+        }
+        while (!pd.isEmpty()) {
+            res[--k] = pd.poll()[0];
+        }
+        return res;
+    }
+}
+
+//runtime:13 ms
+//memory:46.2 MB
